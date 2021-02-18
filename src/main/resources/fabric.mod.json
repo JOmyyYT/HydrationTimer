@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "testmod",
+  "version": "${version}",
+  "name": "Testmod",
+  "description": "test mod i guess lol",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/testmod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "testmod.testmod.client.TestmodClient"
+    ],
+    "main": [
+      "testmod.testmod.Testmod"
+    ]
+  },
+  "mixins": [
+    "testmod.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.1",
+    "fabric": "*",
+    "minecraft": "*"
+  }
+}
