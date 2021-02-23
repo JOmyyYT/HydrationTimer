@@ -4,7 +4,14 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
 import testmod.testmod.config.SimpleConfig;
+import testmod.testmod.gui.OptionGui;
+import testmod.testmod.gui.OptionScreen;
 
 
 @Environment(EnvType.CLIENT)
@@ -15,8 +22,15 @@ public class TestmodClient implements ClientModInitializer {
     int StayTime;
     public static boolean drawString;
     public static String StringToDraw;
+    private static KeyBinding keyBinding;
     @Override
     public void onInitializeClient() {
+        keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.examplemod.spook", // The translation key of the keybinding's name
+                InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
+                GLFW.GLFW_KEY_P, // The keycode of the key
+                "category.examplemod.test" // The translation key of the keybinding's category.
+        ));
         // Load config 'config.properties', if it isn't present create one
         // using the lambda specified as the provider.
         SimpleConfig CONFIG = SimpleConfig.of( "config" ).provider( this::provider ).request();
@@ -40,6 +54,9 @@ public class TestmodClient implements ClientModInitializer {
                     tick = 0;
                     drawString =false;
                 }
+            }
+            if(keyBinding.isPressed()){
+                MinecraftClient.getInstance().openScreen(new OptionScreen(new OptionGui()));
             }
 
         });
